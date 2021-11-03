@@ -1,5 +1,5 @@
-import roles from "./roles";
+import teams from "./teams";
 import users from "./users";
 import permissions from "./permissions";
 
-export default { roles, users, permissions };
+export default { teams, users, permissions };

@@ -4,9 +4,9 @@ import session from "../../../functions/session";
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_HELMET_API_URL,
-  headers: {
-    Authorization: `Bearer ${session.getJWT()}`,
-  },
+  // headers: {
+  //   Authorization: `Bearer ${session.getJWT()}`,
+  // },
 });
 
 api.interceptors.response.use(

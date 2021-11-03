@@ -207,8 +207,8 @@ function NavBar(props) {
     //   },
     // },
     {
-      link: "/c/groups",
-      name: "Grupos",
+      link: "/c/teams",
+      name: "Equipes",
       onClick: closeMobileDrawer,
       icon: {
         desktop: (

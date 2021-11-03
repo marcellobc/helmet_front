@@ -58,7 +58,12 @@ function LoginDialog(props) {
     const data = await helmet.unauthorized.login(payload);
 
     if (data) {
-      session.start(data);
+      session.enableJWT(data.token);
+
+      const user = await helmet.auth.users.findById(data.id);
+      const teams = await helmet.auth.teams.findAllByUserId(data.id);
+
+      session.start({ user, teams, token: data.token });
       toast.success("Login realizado com sucesso!");
       history.push("/c/dashboard");
     } else {

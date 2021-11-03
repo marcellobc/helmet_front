@@ -19,7 +19,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import DeleteIcon from "@material-ui/icons/Delete";
-import FilterListIcon from "@material-ui/icons/FilterList";
+import AddIcon from "@material-ui/icons/Add";
 import formatter from "../functions/formatter";
 
 function descendingComparator(a, b, orderBy) {
@@ -132,7 +132,7 @@ const useToolbarStyles = makeStyles((theme) => ({
   },
 }));
 
-const EnhancedTableToolbar = ({ numSelected, title = "" }) => {
+const EnhancedTableToolbar = ({ numSelected, title = "", addNew }) => {
   const classes = useToolbarStyles();
 
   return (
@@ -167,13 +167,13 @@ const EnhancedTableToolbar = ({ numSelected, title = "" }) => {
             <DeleteIcon />
           </IconButton>
         </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton aria-label="filter list">
-            <FilterListIcon />
+      ) : addNew ? (
+        <Tooltip title="Adicionar" onClick={addNew}>
+          <IconButton aria-label="add-new">
+            <AddIcon />
           </IconButton>
         </Tooltip>
-      )}
+      ) : null}
     </Toolbar>
   );
 };
@@ -211,6 +211,7 @@ export default function EnhancedTable({
   columns,
   rows,
   allowSelection,
+  addNew,
 }) {
   const classes = useStyles();
   const [order, setOrder] = React.useState("asc");
@@ -276,7 +277,11 @@ export default function EnhancedTable({
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar title={title} numSelected={selected.length} />
+        <EnhancedTableToolbar
+          addNew={addNew}
+          title={title}
+          numSelected={selected.length}
+        />
         <TableContainer>
           <Table
             className={classes.table}
@@ -327,7 +332,7 @@ export default function EnhancedTable({
                             <TableCell
                               style={{
                                 display: "flex",
-                                justifyContent: "space-around",
+                                justifyContent: "flex-start",
                               }}
                             >
                               {c.actions.map((a) => a(row))}

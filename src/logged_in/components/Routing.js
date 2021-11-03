@@ -9,7 +9,7 @@ import PropsRoute from "../../shared/components/PropsRoute";
 import useLocationBlocker from "../../shared/functions/useLocationBlocker";
 import session from "../../shared/functions/session";
 import ProtectedRoute from "./navigation/ProtectedRoute";
-import Groups from "./groups/Groups";
+import Teams from "./teams/Teams";
 import Users from "./users/Users";
 
 const styles = (theme) => ({
@@ -97,8 +97,8 @@ function Routing(props) {
           openAddBalanceDialog={openAddBalanceDialog}
         />
         <ProtectedRoute
-          path="/c/groups"
-          component={Groups}
+          path="/c/teams"
+          component={Teams}
           selectGroups={selectGroups}
         />
         <ProtectedRoute

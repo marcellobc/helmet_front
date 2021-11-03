@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Paper, withStyles } from "@material-ui/core";
-import GroupsTable from "./GroupsTable";
+import TeamsTable from "./TeamsTable";
 import helmet from "../../../shared/integrations/helmet";
 import EditGroupDialog from "./EditGroupDialog";
+import session from "../../../shared/functions/session";
+import games from "../../shared/functions/games";
 
 const styles = {
   divider: {
@@ -11,19 +13,25 @@ const styles = {
   },
 };
 
-function Groups({ selectGroups }) {
+function Teams({ selectGroups }) {
   const [tableIsLoading, setTableIsLoading] = useState(false);
   const [editRow, setEditRow] = useState(false);
   const [rows, setRows] = useState([]);
+  const [userGames, setUsersGames] = useState([]);
+
+  const loggedUserId = session.getData().loggedUser._id;
 
   const fetchData = async () => {
     setTableIsLoading(true);
-    const { data } = await helmet.auth.roles.findAll();
+
+    const data = await helmet.auth.teams.findAllByUserId(loggedUserId);
+
     setRows(data);
     setTableIsLoading(true);
   };
 
   const load = async () => {
+    helmet.auth.users.findById(loggedUserId).then(data => data && set);
     selectGroups();
     fetchData();
   };
@@ -34,7 +42,8 @@ function Groups({ selectGroups }) {
 
   return (
     <Paper>
-      <GroupsTable
+      <TeamsTable
+        addNew={addNew}
         loading={tableIsLoading}
         rows={rows}
         onEdit={setEditRow}
@@ -55,11 +64,11 @@ function Groups({ selectGroups }) {
   );
 }
 
-Groups.propTypes = {
+Teams.propTypes = {
   classes: PropTypes.object.isRequired,
   transactions: PropTypes.arrayOf(PropTypes.object).isRequired,
   selectSubscription: PropTypes.func.isRequired,
   openAddBalanceDialog: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(Groups);
+export default withStyles(styles)(Teams);

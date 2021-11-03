@@ -299,7 +299,7 @@ function Main(props) {
 
   const selectGroups = useCallback(() => {
     smoothScrollTop();
-    document.title = `${APP_NAME} - Grupos`;
+    document.title = `${APP_NAME} - Equipes`;
     setSelectedTab("Groups");
   }, [setSelectedTab]);
 

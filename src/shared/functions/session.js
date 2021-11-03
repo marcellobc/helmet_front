@@ -1,7 +1,8 @@
-// import helmet from "../integrations/helmet";
+import helmet from "../integrations/helmet";
 
 const JWT_KEY = "accessToken";
 const LOGGED_USER_KEY = "loggedUser";
+const TEAMS_KEY = "teams";
 
 const get = (key) => {
   return JSON.parse(localStorage.getItem(key) ?? null);
@@ -19,9 +20,14 @@ const getJWT = () => {
   return get(JWT_KEY);
 };
 
-const start = ({ token, id, name }) => {
+const enableJWT = (token) => {
   set(JWT_KEY, token);
-  set(LOGGED_USER_KEY, { id, name });
+};
+
+const start = ({ token, user, teams }) => {
+  set(JWT_KEY, token);
+  set(LOGGED_USER_KEY, user);
+  set(TEAMS_KEY, teams);
 };
 
 const end = () => {
@@ -30,11 +36,14 @@ const end = () => {
 };
 
 const getData = () => {
-  return { [LOGGED_USER_KEY]: get(LOGGED_USER_KEY) };
+  return {
+    [LOGGED_USER_KEY]: get(LOGGED_USER_KEY),
+    [TEAMS_KEY]: get(TEAMS_KEY),
+  };
 };
 
 const validateSession = () => {
   return !!getJWT();
 };
 
-export default { start, end, getData, getJWT, validateSession };
+export default { enableJWT, start, end, getData, getJWT, validateSession };

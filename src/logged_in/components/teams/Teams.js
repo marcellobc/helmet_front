@@ -5,7 +5,6 @@ import TeamsTable from "./TeamsTable";
 import helmet from "../../../shared/integrations/helmet";
 import EditGroupDialog from "./EditGroupDialog";
 import session from "../../../shared/functions/session";
-import games from "../../shared/functions/games";
 
 const styles = {
   divider: {
@@ -31,7 +30,9 @@ function Teams({ selectGroups }) {
   };
 
   const load = async () => {
-    helmet.auth.users.findById(loggedUserId).then(data => data && set);
+    helmet.auth.users
+      .findById(loggedUserId)
+      .then((data) => data && setRows(data));
     selectGroups();
     fetchData();
   };
@@ -43,7 +44,7 @@ function Teams({ selectGroups }) {
   return (
     <Paper>
       <TeamsTable
-        addNew={addNew}
+        addNew={() => console.log("hi")}
         loading={tableIsLoading}
         rows={rows}
         onEdit={setEditRow}
